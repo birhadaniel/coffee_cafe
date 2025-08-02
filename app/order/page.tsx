@@ -3,9 +3,25 @@
 import { useState } from 'react';
 import { categories2, menuItems2 } from '@/assets/assets';
 
+interface MenuItem {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+}
+interface CartItem extends MenuItem {
+  quantity: number;
+}
+interface OrderForm {
+  name: string;
+  email: string;
+  phone: string;
+  pickupTime: string;
+  specialInstructions: string;
+}
 export default function OrderPage() {
-  const [cart, setCart] = useState<any[]>([]);
-  const [orderForm, setOrderForm] = useState({
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [orderForm, setOrderForm] = useState<OrderForm>({
     name: '',
     email: '',
     phone: '',
@@ -15,7 +31,7 @@ export default function OrderPage() {
   const [isOrderSubmitted, setIsOrderSubmitted] = useState(false);
   const [activeCategory, setActiveCategory] = useState('drinks');
 
-  const addToCart = (item: any) => {
+  const addToCart = (item: MenuItem) => {
     const existingItem = cart.find(cartItem => cartItem.id === item.id);
     if (existingItem) {
       setCart(cart.map(cartItem => 
